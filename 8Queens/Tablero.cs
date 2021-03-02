@@ -8,8 +8,8 @@ namespace _8Queens
     {
         string[,] tablero;
         int reinasColocadas;
-        List<string[,]> tableroDeEstados;
-        List<string[,]> tableroDeSoluciones;
+        List<string[,]> tablerosDeEstados;
+        List<string[,]> tablerosDeSoluciones;
         int[] posReinas = { -1, -1, -1, -1, -1, -1, -1, -1 };
         public Tablero() {
             inicializarProceso();
@@ -48,12 +48,12 @@ namespace _8Queens
             
         }
         private void inicializarProceso() {
-            tableroDeEstados = new List<string[,]>();
-            tableroDeSoluciones = new List<string[,]>();
+            tablerosDeEstados = new List<string[,]>();
+            tablerosDeSoluciones = new List<string[,]>();
             tablero = new string[8, 8];
             reinasColocadas = 0;
             inicializarTablero();
-            tableroDeEstados.Add((string[,])tablero.Clone());
+            tablerosDeEstados.Add((string[,])tablero.Clone());
         }
         void inicializarTablero() {
             for (int i = 0; i < 8; i++) {
@@ -75,7 +75,7 @@ namespace _8Queens
                     posReinas[reinasColocadas++] = columna;
                     fila++;
                     columna = 0;
-                    tableroDeEstados.Add((string[,])tablero.Clone());
+                    tablerosDeEstados.Add((string[,])tablero.Clone());
                     // MostrarTablero(tablero,$"ESTADO NRO {cantidadDeEstados}");
                 }
                 else if (columna >= 7 || reinasColocadas == 8)
@@ -83,8 +83,8 @@ namespace _8Queens
                    // mensage = "SE QUITO UNA REINA";
                     if (reinasColocadas == 8) {
                         //Si se llega a colocal la octava reina signifa que se llego a una solucion
-                        tableroDeSoluciones.Add((string[,])tablero.Clone());
-                        //mensage = $"SOLUCION {tableroDeSoluciones.Count}";
+                        tablerosDeSoluciones.Add((string[,])tablero.Clone());
+                        //mensage = $"SOLUCION {tablerosDeSoluciones.Count}";
                         //MostrarTablero(tablero,mensage);
                     }
                     fila--;
@@ -99,8 +99,8 @@ namespace _8Queens
             }while (columna<= 8 || fila != 0);
         }
         private void MostrarResultados() {
-            if (tableroDeEstados.Count>1)
-                Console.WriteLine($"RESULTADO:\nCantidad de estados:{tableroDeEstados.Count}\nSoluciones encontradas: {tableroDeSoluciones.Count}" );
+            if (tablerosDeEstados.Count>1)
+                Console.WriteLine($"RESULTADO:\nCantidad de estados:{tablerosDeEstados.Count}\nSoluciones encontradas: {tablerosDeSoluciones.Count}" );
             else
                 Console.WriteLine("No se coloco ni una reina aun");
         }
@@ -119,9 +119,9 @@ namespace _8Queens
         }
         private void MostrarTodosLosEstados()
         {
-            if (tableroDeEstados.Count > 1) {
+            if (tablerosDeEstados.Count > 1) {
                 int i = 0;
-                foreach(string[,] tablero in tableroDeEstados)
+                foreach(string[,] tablero in tablerosDeEstados)
                 {
                     MostrarTablero(tablero,$"Estado {++i}");
                 }
@@ -131,10 +131,10 @@ namespace _8Queens
         }
         private void MostrarLasSoluciones()
         {
-            if (tableroDeSoluciones.Count > 0)
+            if (tablerosDeSoluciones.Count > 0)
             {
                 int i = 0;
-                foreach (string[,] tablero in tableroDeSoluciones)
+                foreach (string[,] tablero in tablerosDeSoluciones)
                 {
                     MostrarTablero(tablero, $"Solucion {++i}");
                 }
@@ -170,7 +170,7 @@ namespace _8Queens
             return DiagonalValidoSupIzq(fila, columna) && DiagonalValidoSupDer(fila, columna);
         }
         private bool DiagonalValidoSupIzq(int fila, int columna) {
-            int[] pos = HayarInicioDeLaDiagonalSupIzq(fila, columna);
+            int[] pos = HallarInicioDeLaDiagonalSupIzq(fila, columna);
             int f = pos[0];
             int c = pos[1];
             while (f != 8 && c != 8)
@@ -186,7 +186,7 @@ namespace _8Queens
         }
         private bool DiagonalValidoSupDer(int fila, int columna)
         {
-            int[] pos = HayarInicioDeLaDiagonalSupDer(fila, columna);
+            int[] pos = HallarInicioDeLaDiagonalSupDer(fila, columna);
             int f = pos[0];
             int c = pos[1];
             while (f != 8 && c != 0)
@@ -200,7 +200,7 @@ namespace _8Queens
             }
             return true;
         }
-        private int[] HayarInicioDeLaDiagonalSupIzq(int x, int y)
+        private int[] HallarInicioDeLaDiagonalSupIzq(int x, int y)
         {
             while (x != 0 && y != 0)
             {
@@ -210,7 +210,7 @@ namespace _8Queens
             int[] pos = new int[] { x, y };
             return pos;
         }
-        private int[] HayarInicioDeLaDiagonalSupDer(int x, int y)
+        private int[] HallarInicioDeLaDiagonalSupDer(int x, int y)
         {
             while (x != 0 && y != 7)
             {
